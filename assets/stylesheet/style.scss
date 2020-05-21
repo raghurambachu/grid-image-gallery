@@ -1,0 +1,112 @@
+*,*::after,*::before{
+    box-sizing: border-box;
+}
+
+.btn{
+    background: rgba(224, 223, 223,0.2);
+    border: 2px solid whitesmoke;
+    padding: 0.5em 1.2em;
+    color: white;
+    font-weight: bold;
+    border-radius: 2px;
+    outline: 0;
+    cursor: pointer;
+}
+
+.overlay-none{
+    display: none;
+}
+
+.overlay{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    z-index: 2;
+    background: rgba(black,0.6);
+   
+    .overlay-inner{
+        width: 400px;
+        height: 400px;
+        padding: 1em;
+        background: white;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        border-radius: 5px;
+        transform: translateX(-50%) translateY(-50%);
+        .close{
+            font-size: 1.2rem;
+            background: transparent;
+            border: 1px solid red;
+            border-radius: 3.5px;
+            outline: 0;
+            position: absolute;
+            color: red;
+            top: 0%;
+            right: 0%;
+            
+            cursor: pointer;
+        }
+        img{
+            object-fit: cover;
+            width: 360px;
+            height: 360px;
+        }
+    }
+
+}
+
+.gallery{
+    padding: 1em;
+    display: grid;
+    grid-template-columns: repeat(auto-fill,100px);
+    grid-auto-rows: 100px;
+    grid-auto-flow: dense;
+    .image-item{
+        overflow: hidden;
+        display: grid;
+        grid-template-columns: 1;
+        grid-template-rows: 1;
+        .image{
+            grid-row: 1 / -1;
+            grid-column: 1 / -1;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            
+        }
+        .image-item-overlay{
+            grid-column: 1 / -1;
+            grid-row: 1 / -1;
+            background: #ffc60032;
+            display: grid;
+            justify-items: center;
+            align-items: center;
+            transform: translateY(100%);
+            transition: 0.25s;
+        }
+        .view{
+            @extend .btn;
+            text-transform: uppercase;
+        }
+        &:hover > .image-item-overlay{
+            transform: translateY(0%);
+        }
+    }
+    
+}
+
+$spanType : h , v;
+@each $type in $spanType {
+    @for $i from 1 through 4 {
+        .image-item.#{$type}#{$i} {
+            @if $type == h{
+                grid-column: span #{$i}
+            } @else {
+                grid-row: span #{$i};
+            }
+        }
+    }
+}
